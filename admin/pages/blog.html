@@ -1,1 +1,2357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <meta
+    name="description"
+    content="Portfolio Admin - Blog Management"
+  >
+
+  <title>Blog | Portfolio Admin</title>
+
+  <link rel="stylesheet" href="../style.css">
+
+  <script>
+    window.API_BASE_URL = "https://deepak-portfolio-api.onrender.com";
+  </script>
+</head>
+
+<body>
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-logo">
+
+      <span class="logo-mark">K</span>
+
+      <div>
+        <strong>KewaDev</strong>
+        <small>ADMIN PANEL</small>
+      </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+      <a href="../dashboard.html" class="sidebar-link">
+        <span>▦</span>
+        Dashboard
+      </a>
+
+      <a href="projects.html" class="sidebar-link">
+        <span>◈</span>
+        Projects
+      </a>
+
+      <a href="messages.html" class="sidebar-link">
+        <span>✉</span>
+        Messages
+        <span class="sidebar-badge" id="messageBadge">0</span>
+      </a>
+
+      <a href="blog.html" class="sidebar-link active">
+        <span>✎</span>
+        Blog
+      </a>
+
+      <a href="analytics.html" class="sidebar-link">
+        <span>◌</span>
+        Analytics
+      </a>
+
+      <a href="users.html" class="sidebar-link">
+        <span>♙</span>
+        Users
+      </a>
+
+      <a href="settings.html" class="sidebar-link">
+        <span>⚙</span>
+        Settings
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <button
+        type="button"
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        <span>↪</span>
+        Logout
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+
+      <div class="header-left">
+
+        <button
+          type="button"
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+        >
+          ☰
+        </button>
+
+        <div>
+          <p class="header-label">PORTFOLIO</p>
+          <h1>Blog</h1>
+        </div>
+
+      </div>
+
+
+      <div class="header-right">
+
+        <span class="admin-status">
+          <span></span>
+          Admin
+        </span>
+
+      </div>
+
+    </header>
+
+
+    <!-- =========================
+         PAGE CONTENT
+    ========================== -->
+
+    <section class="page-content">
+
+      <div class="page-title-row">
+
+        <div>
+
+          <h2>Blog Management</h2>
+
+          <p>
+            Create, edit and publish articles
+            on your portfolio.
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="primary-btn"
+          id="addBlogBtn"
+        >
+          + New Article
+        </button>
+
+      </div>
+
+
+      <!-- =========================
+           BLOG STATS
+      ========================== -->
+
+      <div class="blog-stats">
+
+        <div class="blog-stat-card">
+
+          <span class="stat-icon">✎</span>
+
+          <div>
+            <small>Total Articles</small>
+            <strong id="totalBlogs">0</strong>
+          </div>
+
+        </div>
+
+
+        <div class="blog-stat-card">
+
+          <span class="stat-icon">●</span>
+
+          <div>
+            <small>Published</small>
+            <strong id="publishedBlogs">0</strong>
+          </div>
+
+        </div>
+
+
+        <div class="blog-stat-card">
+
+          <span class="stat-icon">◷</span>
+
+          <div>
+            <small>Drafts</small>
+            <strong id="draftBlogs">0</strong>
+          </div>
+
+        </div>
+
+
+        <div class="blog-stat-card">
+
+          <span class="stat-icon">◉</span>
+
+          <div>
+            <small>Total Views</small>
+            <strong id="totalBlogViews">0</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           TOOLBAR
+      ========================== -->
+
+      <div class="blog-toolbar">
+
+        <div class="search-box">
+
+          <span>⌕</span>
+
+          <input
+            type="search"
+            id="blogSearch"
+            placeholder="Search articles..."
+          >
+
+        </div>
+
+
+        <select id="blogStatusFilter">
+
+          <option value="all">All Status</option>
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
+
+        </select>
+
+
+        <select id="blogCategoryFilter">
+
+          <option value="all">All Categories</option>
+
+        </select>
+
+      </div>
+
+
+      <!-- =========================
+           BLOG LIST
+      ========================== -->
+
+      <div
+        class="blog-grid"
+        id="blogContainer"
+      >
+
+        <div class="loading-card">
+
+          <div class="loading-spinner"></div>
+
+          <p>Loading articles...</p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       BLOG EDITOR MODAL
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="blogModal"
+    hidden
+  >
+
+    <div class="modal blog-modal">
+
+      <div class="modal-header">
+
+        <div>
+
+          <p class="modal-label">
+            BLOG EDITOR
+          </p>
+
+          <h2 id="blogModalTitle">
+            New Article
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="modal-close"
+          id="closeBlogModalBtn"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form id="blogForm">
+
+        <input
+          type="hidden"
+          id="blogId"
+        >
+
+
+        <div class="form-group">
+
+          <label for="blogTitle">
+            Article Title
+          </label>
+
+          <input
+            type="text"
+            id="blogTitle"
+            placeholder="Enter article title..."
+            required
+            maxlength="200"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="blogSlug">
+            Slug
+          </label>
+
+          <input
+            type="text"
+            id="blogSlug"
+            placeholder="article-url-slug"
+            maxlength="220"
+          >
+
+          <small>
+            Leave empty to generate automatically from the title.
+          </small>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="blogExcerpt">
+            Excerpt
+          </label>
+
+          <textarea
+            id="blogExcerpt"
+            rows="3"
+            placeholder="Short description of the article..."
+            maxlength="500"
+          ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="blogContent">
+            Article Content
+          </label>
+
+          <textarea
+            id="blogContent"
+            rows="12"
+            placeholder="Write your article here..."
+            required
+          ></textarea>
+
+          <small>
+            Write the complete article content.
+          </small>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label for="blogCoverImage">
+              Cover Image URL
+            </label>
+
+            <input
+              type="url"
+              id="blogCoverImage"
+              placeholder="https://..."
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="blogCategory">
+              Category
+            </label>
+
+            <input
+              type="text"
+              id="blogCategory"
+              placeholder="Web Development"
+              maxlength="100"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="blogTags">
+            Tags
+          </label>
+
+          <input
+            type="text"
+            id="blogTags"
+            placeholder="JavaScript, AI, Web Development"
+          >
+
+          <small>
+            Separate tags with commas.
+          </small>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label for="blogStatus">
+              Status
+            </label>
+
+            <select id="blogStatus">
+
+              <option value="draft">
+                Draft
+              </option>
+
+              <option value="published">
+                Published
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Visibility
+            </label>
+
+            <label class="checkbox-field">
+
+              <input
+                type="checkbox"
+                id="blogFeatured"
+              >
+
+              <span>
+                Featured Article
+              </span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="form-message"
+          id="blogFormMessage"
+        ></div>
+
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="secondary-btn"
+            id="cancelBlogBtn"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary-btn"
+            id="saveBlogBtn"
+          >
+            Save Article
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       DELETE MODAL
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="deleteBlogModal"
+    hidden
+  >
+
+    <div class="modal small-modal">
+
+      <div class="delete-icon">
+        !
+      </div>
+
+      <h2>
+        Delete Article?
+      </h2>
+
+      <p>
+        This article will be permanently deleted.
+        This action cannot be undone.
+      </p>
+
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="secondary-btn"
+          id="cancelBlogDeleteBtn"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="danger-btn"
+          id="confirmBlogDeleteBtn"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       TOAST
+  ========================== -->
+
+  <div
+    class="admin-toast"
+    id="blogToast"
+    aria-live="polite"
+  ></div>
+
+
+  <!-- =========================
+       BLOG SCRIPT
+  ========================== -->
+
+  <script>
+
+    "use strict";
+
+    const API_BASE_URL =
+      (window.API_BASE_URL || "").replace(/\/$/, "");
+
+
+    let blogs = [];
+    let selectedBlog = null;
+    let currentStatus = "all";
+    let currentCategory = "all";
+    let searchQuery = "";
+
+
+    /* =========================
+       AUTH
+    ========================== */
+
+    function getToken() {
+
+      return (
+        localStorage.getItem("adminToken") ||
+        sessionStorage.getItem("adminToken") ||
+        ""
+      );
+
+    }
+
+
+    function authHeaders() {
+
+      const token = getToken();
+
+      return token
+        ? {
+            Authorization: `Bearer ${token}`
+          }
+        : {};
+
+    }
+
+
+    function logout() {
+
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("adminUser");
+
+      sessionStorage.removeItem("adminToken");
+      sessionStorage.removeItem("adminUser");
+
+      window.location.href = "../index.html";
+
+    }
+
+
+    async function checkAuth() {
+
+      const token = getToken();
+
+      if (!token) {
+
+        logout();
+        return false;
+
+      }
+
+
+      try {
+
+        const response = await fetch(
+          `${API_BASE_URL}/api/auth/me`,
+          {
+            method: "GET",
+            headers: {
+              ...authHeaders()
+            }
+          }
+        );
+
+
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          logout();
+          return false;
+
+        }
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Authentication check failed"
+          );
+
+        }
+
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "Auth error:",
+          error
+        );
+
+        showToast(
+          "Unable to verify authentication",
+          "error"
+        );
+
+        return false;
+
+      }
+
+    }
+
+
+    /* =========================
+       LOAD BLOGS
+    ========================== */
+
+    async function loadBlogs() {
+
+      const container =
+        document.getElementById("blogContainer");
+
+
+      if (container) {
+
+        container.innerHTML = `
+          <div class="loading-card">
+            <div class="loading-spinner"></div>
+            <p>Loading articles...</p>
+          </div>
+        `;
+
+      }
+
+
+      try {
+
+        const response = await fetch(
+          `${API_BASE_URL}/api/blog`,
+          {
+            method: "GET",
+            headers: {
+              ...authHeaders()
+            }
+          }
+        );
+
+
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          logout();
+          return;
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            "Failed to load articles"
+          );
+
+        }
+
+
+        blogs =
+          Array.isArray(data)
+            ? data
+            : (
+                data.blogs ||
+                data.data ||
+                []
+              );
+
+
+        updateStats();
+        buildCategoryFilter();
+        renderBlogs();
+
+
+      } catch (error) {
+
+        console.error(
+          "Load blogs error:",
+          error
+        );
+
+
+        if (container) {
+
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">!</div>
+              <h3>Unable to load articles</h3>
+              <p>${escapeHTML(error.message)}</p>
+              <button
+                class="primary-btn"
+                onclick="loadBlogs()"
+              >
+                Retry
+              </button>
+            </div>
+          `;
+
+        }
+
+        showToast(
+          error.message ||
+          "Failed to load articles",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       STATS
+    ========================== */
+
+    function updateStats() {
+
+      const total =
+        blogs.length;
+
+
+      const published =
+        blogs.filter(
+          blog =>
+            blog.status === "published" ||
+            blog.published === true
+        ).length;
+
+
+      const drafts =
+        blogs.filter(
+          blog =>
+            blog.status === "draft" ||
+            blog.published === false
+        ).length;
+
+
+      const views =
+        blogs.reduce(
+          (sum, blog) =>
+            sum +
+            Number(
+              blog.views ||
+              blog.viewCount ||
+              0
+            ),
+          0
+        );
+
+
+      const totalElement =
+        document.getElementById(
+          "totalBlogs"
+        );
+
+      const publishedElement =
+        document.getElementById(
+          "publishedBlogs"
+        );
+
+      const draftElement =
+        document.getElementById(
+          "draftBlogs"
+        );
+
+      const viewsElement =
+        document.getElementById(
+          "totalBlogViews"
+        );
+
+
+      if (totalElement) {
+
+        totalElement.textContent =
+          total;
+
+      }
+
+
+      if (publishedElement) {
+
+        publishedElement.textContent =
+          published;
+
+      }
+
+
+      if (draftElement) {
+
+        draftElement.textContent =
+          drafts;
+
+      }
+
+
+      if (viewsElement) {
+
+        viewsElement.textContent =
+          views.toLocaleString(
+            "en-IN"
+          );
+
+      }
+
+    }
+
+
+    /* =========================
+       CATEGORIES
+    ========================== */
+
+    function buildCategoryFilter() {
+
+      const select =
+        document.getElementById(
+          "blogCategoryFilter"
+        );
+
+
+      if (!select) return;
+
+
+      const categories =
+        [
+          ...new Set(
+            blogs
+              .map(
+                blog =>
+                  blog.category
+              )
+              .filter(Boolean)
+          )
+        ]
+        .sort();
+
+
+      select.innerHTML = `
+        <option value="all">
+          All Categories
+        </option>
+      `;
+
+
+      categories.forEach(
+        category => {
+
+          const option =
+            document.createElement(
+              "option"
+            );
+
+          option.value =
+            category;
+
+          option.textContent =
+            category;
+
+          select.appendChild(
+            option
+          );
+
+        }
+      );
+
+
+      select.value =
+        currentCategory;
+
+    }
+
+
+    /* =========================
+       RENDER BLOGS
+    ========================== */
+
+    function renderBlogs() {
+
+      const container =
+        document.getElementById(
+          "blogContainer"
+        );
+
+
+      if (!container) return;
+
+
+      let filtered =
+        [...blogs];
+
+
+      if (
+        currentStatus !==
+        "all"
+      ) {
+
+        filtered =
+          filtered.filter(
+            blog => {
+
+              const status =
+                blog.status ||
+                (
+                  blog.published
+                    ? "published"
+                    : "draft"
+                );
+
+              return (
+                status ===
+                currentStatus
+              );
+
+            }
+          );
+
+      }
+
+
+      if (
+        currentCategory !==
+        "all"
+      ) {
+
+        filtered =
+          filtered.filter(
+            blog =>
+              blog.category ===
+              currentCategory
+          );
+
+      }
+
+
+      if (searchQuery) {
+
+        filtered =
+          filtered.filter(
+            blog => {
+
+              const text = `
+                ${blog.title || ""}
+                ${blog.excerpt || ""}
+                ${blog.content || ""}
+                ${blog.category || ""}
+                ${Array.isArray(blog.tags)
+                  ? blog.tags.join(" ")
+                  : blog.tags || ""}
+              `.toLowerCase();
+
+
+              return text.includes(
+                searchQuery
+              );
+
+            }
+          );
+
+      }
+
+
+      if (!filtered.length) {
+
+        container.innerHTML = `
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              ✎
+            </div>
+
+            <h3>
+              No articles found
+            </h3>
+
+            <p>
+              Try changing your search
+              or filter.
+            </p>
+
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        filtered
+          .map(
+            blog =>
+              createBlogCard(
+                blog
+              )
+          )
+          .join("");
+
+    }
+
+
+    /* =========================
+   BLOG CARD
+========================= */
+
+function createBlogCard(blog) {
+
+  const status =
+    blog.status ||
+    (
+      blog.published
+        ? "published"
+        : "draft"
+    );
+
+  const image =
+    blog.coverImage ||
+    blog.coverImageUrl ||
+    blog.image ||
+    "";
+
+  const tags =
+    Array.isArray(blog.tags)
+      ? blog.tags
+      : (
+          blog.tags
+            ? String(blog.tags)
+                .split(",")
+                .map(tag => tag.trim())
+                .filter(Boolean)
+            : []
+        );
+
+  return `
+    <article
+      class="blog-card"
+      data-id="${escapeHTML(blog.id || "")}"
+    >
+
+      ${
+        image
+          ? `
+            <div class="blog-card-image">
+
+              <img
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(
+                  blog.title || "Blog cover"
+                )}"
+                loading="lazy"
+                onerror="
+                  this.parentElement.style.display='none'
+                "
+              >
+
+            </div>
+          `
+          : ""
+      }
+
+
+      <div class="blog-card-content">
+
+        <div class="blog-card-top">
+
+          <span
+            class="status-badge ${escapeHTML(status)}"
+          >
+            ${escapeHTML(status)}
+          </span>
+
+
+          ${
+            blog.featured === true
+              ? `
+                <span class="featured-badge">
+                  ★ Featured
+                </span>
+              `
+              : ""
+          }
+
+        </div>
+
+
+        <h3>
+          ${escapeHTML(
+            blog.title ||
+            "Untitled Article"
+          )}
+        </h3>
+
+
+        <p>
+          ${escapeHTML(
+            blog.excerpt ||
+            truncateText(
+              blog.content || "",
+              150
+            )
+          )}
+        </p>
+
+
+        <div class="blog-card-meta">
+
+          ${
+            blog.category
+              ? `
+                <span>
+                  ${escapeHTML(
+                    blog.category
+                  )}
+                </span>
+              `
+              : ""
+          }
+
+
+          <span>
+            ${formatDate(
+              blog.createdAt
+            )}
+          </span>
+
+
+          <span>
+            👁 ${
+              Number(
+                blog.views ||
+                blog.viewCount ||
+                0
+              ).toLocaleString("en-IN")
+            }
+          </span>
+
+        </div>
+
+
+        ${
+          tags.length
+            ? `
+              <div class="blog-tags">
+
+                ${tags
+                  .slice(0, 4)
+                  .map(
+                    tag =>
+                      `
+                        <span>
+                          #${escapeHTML(tag)}
+                        </span>
+                      `
+                  )
+                  .join("")}
+
+              </div>
+            `
+            : ""
+        }
+
+
+        <div class="blog-card-actions">
+
+          <button
+            type="button"
+            class="secondary-btn"
+            onclick="editBlog('${escapeHTML(
+              blog.id
+            )}')"
+          >
+            Edit
+          </button>
+
+
+          <button
+            type="button"
+            class="danger-btn"
+            onclick="deleteBlog('${escapeHTML(
+              blog.id
+            )}')"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+  `;
+
+}
+
+
+/* =========================
+   OPEN NEW BLOG
+========================= */
+
+function openNewBlog() {
+
+  selectedBlog = null;
+
+  document.getElementById(
+    "blogForm"
+  ).reset();
+
+  document.getElementById(
+    "blogId"
+  ).value = "";
+
+  document.getElementById(
+    "blogModalTitle"
+  ).textContent = "New Article";
+
+  document.getElementById(
+    "blogFormMessage"
+  ).textContent = "";
+
+  document.getElementById(
+    "blogModal"
+  ).hidden = false;
+
+}
+
+
+/* =========================
+   EDIT BLOG
+========================= */
+
+function editBlog(id) {
+
+  const blog =
+    blogs.find(
+      item => item.id === id
+    );
+
+  if (!blog) {
+
+    showToast(
+      "Article not found",
+      "error"
+    );
+
+    return;
+
+  }
+
+  selectedBlog = blog;
+
+  document.getElementById(
+    "blogId"
+  ).value = blog.id || "";
+
+  document.getElementById(
+    "blogTitle"
+  ).value = blog.title || "";
+
+  document.getElementById(
+    "blogSlug"
+  ).value = blog.slug || "";
+
+  document.getElementById(
+    "blogExcerpt"
+  ).value = blog.excerpt || "";
+
+  document.getElementById(
+    "blogContent"
+  ).value = blog.content || "";
+
+  document.getElementById(
+    "blogCoverImage"
+  ).value =
+    blog.coverImage ||
+    blog.coverImageUrl ||
+    blog.image ||
+    "";
+
+  document.getElementById(
+    "blogCategory"
+  ).value =
+    blog.category || "";
+
+  document.getElementById(
+    "blogTags"
+  ).value =
+    Array.isArray(blog.tags)
+      ? blog.tags.join(", ")
+      : blog.tags || "";
+
+  document.getElementById(
+    "blogStatus"
+  ).value =
+    blog.status ||
+    (
+      blog.published
+        ? "published"
+        : "draft"
+    );
+
+  document.getElementById(
+    "blogFeatured"
+  ).checked =
+    blog.featured === true;
+
+  document.getElementById(
+    "blogModalTitle"
+  ).textContent =
+    "Edit Article";
+
+  document.getElementById(
+    "blogFormMessage"
+  ).textContent = "";
+
+  document.getElementById(
+    "blogModal"
+  ).hidden = false;
+
+}
+
+
+/* =========================
+   CLOSE BLOG MODAL
+========================= */
+
+function closeBlogModal() {
+
+  const modal =
+    document.getElementById(
+      "blogModal"
+    );
+
+  if (modal) {
+    modal.hidden = true;
+  }
+
+  selectedBlog = null;
+
+}
+
+
+/* =========================
+   SAVE BLOG
+========================= */
+
+async function saveBlog(event) {
+
+  event.preventDefault();
+
+  const saveButton =
+    document.getElementById(
+      "saveBlogBtn"
+    );
+
+  const message =
+    document.getElementById(
+      "blogFormMessage"
+    );
+
+  const id =
+    document.getElementById(
+      "blogId"
+    ).value.trim();
+
+  const title =
+    document.getElementById(
+      "blogTitle"
+    ).value.trim();
+
+  const slugInput =
+    document.getElementById(
+      "blogSlug"
+    ).value.trim();
+
+  const excerpt =
+    document.getElementById(
+      "blogExcerpt"
+    ).value.trim();
+
+  const content =
+    document.getElementById(
+      "blogContent"
+    ).value.trim();
+
+  const coverImage =
+    document.getElementById(
+      "blogCoverImage"
+    ).value.trim();
+
+  const category =
+    document.getElementById(
+      "blogCategory"
+    ).value.trim();
+
+  const tags =
+    document.getElementById(
+      "blogTags"
+    ).value
+      .split(",")
+      .map(tag => tag.trim())
+      .filter(Boolean);
+
+  const status =
+    document.getElementById(
+      "blogStatus"
+    ).value;
+
+  const featured =
+    document.getElementById(
+      "blogFeatured"
+    ).checked;
+
+
+  if (!title) {
+
+    message.textContent =
+      "Article title is required.";
+
+    return;
+
+  }
+
+
+  if (!content) {
+
+    message.textContent =
+      "Article content is required.";
+
+    return;
+
+  }
+
+
+  const slug =
+    slugInput ||
+    generateSlug(title);
+
+
+  const payload = {
+
+    title,
+    slug,
+    excerpt,
+    content,
+    coverImage,
+    category,
+    tags,
+    status,
+    published:
+      status === "published",
+    featured
+
+  };
+
+
+  try {
+
+    saveButton.disabled = true;
+
+    saveButton.textContent =
+      "Saving...";
+
+
+    const url =
+      id
+        ? `${API_BASE_URL}/api/blog/${id}`
+        : `${API_BASE_URL}/api/blog`;
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          method:
+            id ? "PUT" : "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            ...authHeaders()
+          },
+
+          body:
+            JSON.stringify(payload)
+        }
+      );
+
+
+    if (
+      response.status === 401 ||
+      response.status === 403
+    ) {
+
+      logout();
+      return;
+
+    }
+
+
+    const data =
+      await response.json()
+        .catch(() => ({}));
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.message ||
+        "Failed to save article"
+      );
+
+    }
+
+
+    closeBlogModal();
+
+    await loadBlogs();
+
+    showToast(
+      id
+        ? "Article updated successfully"
+        : "Article created successfully",
+      "success"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Save blog error:",
+      error
+    );
+
+    message.textContent =
+      error.message ||
+      "Failed to save article";
+
+    showToast(
+      error.message ||
+      "Failed to save article",
+      "error"
+    );
+
+
+  } finally {
+
+    saveButton.disabled = false;
+
+    saveButton.textContent =
+      "Save Article";
+
+  }
+
+}
+
+
+/* =========================
+   DELETE BLOG
+========================= */
+
+function deleteBlog(id) {
+
+  const blog =
+    blogs.find(
+      item => item.id === id
+    );
+
+
+  if (!blog) {
+
+    showToast(
+      "Article not found",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  selectedBlog = blog;
+
+
+  document.getElementById(
+    "deleteBlogModal"
+  ).hidden = false;
+
+}
+
+
+/* =========================
+   CONFIRM DELETE
+========================= */
+
+async function confirmDeleteBlog() {
+
+  if (!selectedBlog) {
+    return;
+  }
+
+
+  const id =
+    selectedBlog.id;
+
+
+  const button =
+    document.getElementById(
+      "confirmBlogDeleteBtn"
+    );
+
+
+  try {
+
+    button.disabled = true;
+
+    button.textContent =
+      "Deleting...";
+
+
+    const response =
+      await fetch(
+        `${API_BASE_URL}/api/blog/${id}`,
+        {
+          method: "DELETE",
+
+          headers: {
+            ...authHeaders()
+          }
+        }
+      );
+
+
+    if (
+      response.status === 401 ||
+      response.status === 403
+    ) {
+
+      logout();
+      return;
+
+    }
+
+
+    const data =
+      await response.json()
+        .catch(() => ({}));
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.message ||
+        "Failed to delete article"
+      );
+
+    }
+
+
+    document.getElementById(
+      "deleteBlogModal"
+    ).hidden = true;
+
+
+    selectedBlog = null;
+
+
+    await loadBlogs();
+
+
+    showToast(
+      "Article deleted successfully",
+      "success"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Delete blog error:",
+      error
+    );
+
+    showToast(
+      error.message ||
+      "Failed to delete article",
+      "error"
+    );
+
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      "Delete";
+
+  }
+
+}
+
+
+/* =========================
+   GENERATE SLUG
+========================= */
+
+function generateSlug(title) {
+
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(
+      /[^a-z0-9\s-]/g,
+      ""
+    )
+    .replace(
+      /\s+/g,
+      "-"
+    )
+    .replace(
+      /-+/g,
+      "-"
+    );
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function handleBlogSearch() {
+
+  const input =
+    document.getElementById(
+      "blogSearch"
+    );
+
+
+  searchQuery =
+    input
+      ? input.value
+          .toLowerCase()
+          .trim()
+      : "";
+
+
+  renderBlogs();
+
+}
+
+
+/* =========================
+   STATUS FILTER
+========================= */
+
+function handleStatusFilter() {
+
+  currentStatus =
+    document.getElementById(
+      "blogStatusFilter"
+    ).value;
+
+
+  renderBlogs();
+
+}
+
+
+/* =========================
+   CATEGORY FILTER
+========================= */
+
+function handleCategoryFilter() {
+
+  currentCategory =
+    document.getElementById(
+      "blogCategoryFilter"
+    ).value;
+
+
+  renderBlogs();
+
+}
+
+
+/* =========================
+   FORMAT DATE
+========================= */
+
+function formatDate(timestamp) {
+
+  if (!timestamp) {
+    return "Unknown date";
+  }
+
+
+  try {
+
+    let date;
+
+
+    if (
+      typeof timestamp === "object" &&
+      timestamp.seconds
+    ) {
+
+      date =
+        new Date(
+          timestamp.seconds * 1000
+        );
+
+    } else {
+
+      date =
+        new Date(timestamp);
+
+    }
+
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return "Unknown date";
+
+    }
+
+
+    return date.toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      }
+    );
+
+
+  } catch {
+
+    return "Unknown date";
+
+  }
+
+}
+
+
+/* =========================
+   TRUNCATE TEXT
+========================= */
+
+function truncateText(
+  text,
+  maxLength = 150
+) {
+
+  if (!text) {
+    return "";
+  }
+
+
+  text = String(text);
+
+
+  if (
+    text.length <= maxLength
+  ) {
+
+    return text;
+
+  }
+
+
+  return (
+    text.substring(
+      0,
+      maxLength
+    ) + "..."
+  );
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(
+  text,
+  type = "success"
+) {
+
+  const toast =
+    document.getElementById(
+      "blogToast"
+    );
+
+
+  if (!toast) {
+    return;
+  }
+
+
+  toast.textContent =
+    text;
+
+
+  toast.className =
+    `admin-toast ${type}`;
+
+
+  requestAnimationFrame(
+    () => {
+
+      toast.classList.add(
+        "show"
+      );
+
+    }
+  );
+
+
+  clearTimeout(
+    window.blogToastTimer
+  );
+
+
+  window.blogToastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3000
+    );
+
+}
+
+
+/* =========================
+   MOBILE SIDEBAR
+========================= */
+
+function toggleSidebar() {
+
+  const sidebar =
+    document.getElementById(
+      "sidebar"
+    );
+
+
+  if (sidebar) {
+
+    sidebar.classList.toggle(
+      "active"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   EVENT LISTENERS
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    const authenticated =
+      await checkAuth();
+
+
+    if (!authenticated) {
+      return;
+    }
+
+
+    await loadBlogs();
+
+
+    document
+      .getElementById(
+        "addBlogBtn"
+      )
+      ?.addEventListener(
+        "click",
+        openNewBlog
+      );
+
+
+    document
+      .getElementById(
+        "closeBlogModalBtn"
+      )
+      ?.addEventListener(
+        "click",
+        closeBlogModal
+      );
+
+
+    document
+      .getElementById(
+        "cancelBlogBtn"
+      )
+      ?.addEventListener(
+        "click",
+        closeBlogModal
+      );
+
+
+    document
+      .getElementById(
+        "blogForm"
+      )
+      ?.addEventListener(
+        "submit",
+        saveBlog
+      );
+
+
+    document
+      .getElementById(
+        "cancelBlogDeleteBtn"
+      )
+      ?.addEventListener(
+        "click",
+        () => {
+
+          document.getElementById(
+            "deleteBlogModal"
+          ).hidden = true;
+
+          selectedBlog = null;
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        "confirmBlogDeleteBtn"
+      )
+      ?.addEventListener(
+        "click",
+        confirmDeleteBlog
+      );
+
+
+    document
+      .getElementById(
+        "blogSearch"
+      )
+      ?.addEventListener(
+        "input",
+        handleBlogSearch
+      );
+
+
+    document
+      .getElementById(
+        "blogStatusFilter"
+      )
+      ?.addEventListener(
+        "change",
+        handleStatusFilter
+      );
+
+
+    document
+      .getElementById(
+        "blogCategoryFilter"
+      )
+      ?.addEventListener(
+        "change",
+        handleCategoryFilter
+      );
+
+
+    document
+      .getElementById(
+        "logoutBtn"
+      )
+      ?.addEventListener(
+        "click",
+        logout
+      );
+
+
+    document
+      .getElementById(
+        "mobileMenuBtn"
+      )
+      ?.addEventListener(
+        "click",
+        toggleSidebar
+      );
+
+  }
+);
+
+
+/* =========================
+   MODAL BACKDROP
+========================= */
+
+document.addEventListener(
+  "click",
+  event => {
+
+    const blogModal =
+      document.getElementById(
+        "blogModal"
+      );
+
+
+    const deleteModal =
+      document.getElementById(
+        "deleteBlogModal"
+      );
+
+
+    if (
+      blogModal &&
+      event.target === blogModal
+    ) {
+
+      closeBlogModal();
+
+    }
+
+
+    if (
+      deleteModal &&
+      event.target === deleteModal
+    ) {
+
+      deleteModal.hidden = true;
+
+      selectedBlog = null;
+
+    }
+
+  }
+);
+
+
+/* =========================
+   ESC KEY
+========================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key !== "Escape"
+    ) {
+      return;
+    }
+
+
+    closeBlogModal();
+
+
+    const deleteModal =
+      document.getElementById(
+        "deleteBlogModal"
+      );
+
+
+    if (deleteModal) {
+
+      deleteModal.hidden = true;
+
+    }
+
+
+    selectedBlog = null;
+
+  }
+);
+      </script>
+  </body>
+  </html>
+                       

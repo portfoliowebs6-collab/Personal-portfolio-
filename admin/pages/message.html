@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Portfolio Admin - Message Management"
+  >
+
+  <title>Messages | Portfolio Admin</title>
+
+  <link
+    rel="stylesheet"
+    href="../style.css"
+  >
+
+  <script>
+    window.API_BASE_URL =
+      "https://deepak-portfolio-api.onrender.com";
+  </script>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
+
+    <div class="sidebar-logo">
+
+      <span class="logo-mark">
+        K
+      </span>
+
+      <div>
+
+        <strong>
+          KewaDev
+        </strong>
+
+        <small>
+          ADMIN PANEL
+        </small>
+
+      </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+      <a
+        href="../dashboard.html"
+        class="sidebar-link"
+      >
+        <span>▦</span>
+        Dashboard
+      </a>
+
+
+      <a
+        href="projects.html"
+        class="sidebar-link"
+      >
+        <span>◈</span>
+        Projects
+      </a>
+
+
+      <a
+        href="messages.html"
+        class="sidebar-link active"
+      >
+        <span>✉</span>
+        Messages
+
+        <span
+          class="sidebar-badge"
+          id="messageBadge"
+        >
+          0
+        </span>
+
+      </a>
+
+
+      <a
+        href="blog.html"
+        class="sidebar-link"
+      >
+        <span>✎</span>
+        Blog
+      </a>
+
+
+      <a
+        href="analytics.html"
+        class="sidebar-link"
+      >
+        <span>◌</span>
+        Analytics
+      </a>
+
+
+      <a
+        href="users.html"
+        class="sidebar-link"
+      >
+        <span>♙</span>
+        Users
+      </a>
+
+
+      <a
+        href="settings.html"
+        class="sidebar-link"
+      >
+        <span>⚙</span>
+        Settings
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <button
+        type="button"
+        class="logout-btn"
+        id="logoutBtn"
+      >
+
+        <span>↪</span>
+
+        Logout
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main class="admin-main">
+
+
+    <header class="admin-header">
+
+      <div class="header-left">
+
+        <button
+          type="button"
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+        >
+          ☰
+        </button>
+
+
+        <div>
+
+          <p class="header-label">
+            PORTFOLIO
+          </p>
+
+          <h1>
+            Messages
+          </h1>
+
+        </div>
+
+      </div>
+
+
+      <div class="header-right">
+
+        <span class="admin-status">
+
+          <span></span>
+
+          Admin
+
+        </span>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         PAGE CONTENT
+    ========================== -->
+
+    <section class="page-content">
+
+
+      <div class="page-title-row">
+
+        <div>
+
+          <h2>
+            Message Inbox
+          </h2>
+
+          <p>
+            Manage messages received from
+            your portfolio contact form.
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="secondary-btn"
+          id="refreshMessagesBtn"
+        >
+          ↻ Refresh
+        </button>
+
+      </div>
+
+
+
+      <!-- =========================
+           MESSAGE STATS
+      ========================== -->
+
+      <div class="message-stats">
+
+
+        <div class="message-stat-card">
+
+          <span class="stat-icon">
+            ✉
+          </span>
+
+          <div>
+
+            <small>
+              Total
+            </small>
+
+            <strong id="totalMessages">
+              0
+            </strong>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="message-stat-card">
+
+          <span class="stat-icon">
+            ●
+          </span>
+
+          <div>
+
+            <small>
+              Unread
+            </small>
+
+            <strong id="unreadMessages">
+              0
+            </strong>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="message-stat-card">
+
+          <span class="stat-icon">
+            ✓
+          </span>
+
+          <div>
+
+            <small>
+              Replied
+            </small>
+
+            <strong id="repliedMessages">
+              0
+            </strong>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="message-stat-card">
+
+          <span class="stat-icon">
+            ▣
+          </span>
+
+          <div>
+
+            <small>
+              Archived
+            </small>
+
+            <strong id="archivedMessages">
+              0
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =========================
+           TOOLBAR
+      ========================== -->
+
+      <div class="message-toolbar">
+
+
+        <div class="search-box">
+
+          <span>
+            ⌕
+          </span>
+
+          <input
+            type="search"
+            id="messageSearch"
+            placeholder="Search name, email or subject..."
+            autocomplete="off"
+          >
+
+        </div>
+
+
+        <select
+          id="messageStatusFilter"
+        >
+
+          <option value="all">
+            All Messages
+          </option>
+
+          <option value="unread">
+            Unread
+          </option>
+
+          <option value="read">
+            Read
+          </option>
+
+          <option value="replied">
+            Replied
+          </option>
+
+          <option value="archived">
+            Archived
+          </option>
+
+        </select>
+
+      </div>
+
+
+
+      <!-- =========================
+           MESSAGE LAYOUT
+      ========================== -->
+
+      <div class="messages-layout">
+
+
+        <!-- MESSAGE LIST -->
+
+        <div class="messages-list-panel">
+
+          <div
+            class="messages-list"
+            id="messagesList"
+          >
+
+            <div class="loading-card">
+
+              <div class="loading-spinner"></div>
+
+              <p>
+                Loading messages...
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- MESSAGE DETAILS -->
+
+        <div
+          class="message-detail-panel"
+          id="messageDetailPanel"
+        >
+
+          <div class="empty-message-state">
+
+            <div class="empty-message-icon">
+              ✉
+            </div>
+
+            <h3>
+              Select a message
+            </h3>
+
+            <p>
+              Choose a message from the inbox
+              to view its details.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =========================
+       DELETE MODAL
+  ========================== -->
+
+  <div
+    class="modal-overlay"
+    id="deleteMessageModal"
+    hidden
+  >
+
+    <div class="modal small-modal">
+
+
+      <div class="delete-icon">
+        !
+      </div>
+
+
+      <h2>
+        Delete Message?
+      </h2>
+
+
+      <p>
+        This message will be permanently
+        deleted. This action cannot be undone.
+      </p>
+
+
+      <div class="modal-actions">
+
+
+        <button
+          type="button"
+          class="secondary-btn"
+          id="cancelMessageDeleteBtn"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          type="button"
+          class="danger-btn"
+          id="confirmMessageDeleteBtn"
+        >
+          Delete
+        </button>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       TOAST
+  ========================== -->
+
+  <div
+    class="admin-toast"
+    id="messageToast"
+    aria-live="polite"
+  ></div>
+
+
+
+  <!-- =========================
+       MESSAGE PAGE SCRIPT
+  ========================== -->
+
+  <script>
+
+  "use strict";
+
+
+  /* =========================================
+     CONFIG
+  ========================================= */
+
+  const API_BASE_URL =
+    (window.API_BASE_URL || "")
+      .replace(/\/$/, "");
+
+
+  const TOKEN_KEY =
+    "adminToken";
+
+
+  const ADMIN_KEY =
+    "adminUser";
+
+
+
+  /* =========================================
+     AUTH
+  ========================================= */
+
+  function getToken() {
+
+    return (
+      localStorage.getItem(TOKEN_KEY) ||
+      sessionStorage.getItem(TOKEN_KEY) ||
+      ""
+    );
+
+  }
+
+
+  function clearAuth() {
+
+    localStorage.removeItem(TOKEN_KEY);
+
+    sessionStorage.removeItem(TOKEN_KEY);
+
+    localStorage.removeItem(ADMIN_KEY);
+
+    sessionStorage.removeItem(ADMIN_KEY);
+
+  }
+
+
+  function authHeaders() {
+
+    const token =
+      getToken();
+
+    return {
+
+      "Content-Type":
+        "application/json",
+
+      "Authorization":
+        `Bearer ${token}`
+
+    };
+
+  }
+
+
+
+  /* =========================================
+     TOAST
+  ========================================= */
+
+  function showToast(
+    message,
+    type = "success"
+  ) {
+
+    const toast =
+      document.getElementById(
+        "messageToast"
+      );
+
+
+    if (!toast) {
+      return;
+    }
+
+
+    toast.textContent =
+      message;
+
+
+    toast.className =
+      `admin-toast ${type}`;
+
+
+    toast.classList.add(
+      "show"
+    );
+
+
+    clearTimeout(
+      window.messageToastTimer
+    );
+
+
+    window.messageToastTimer =
+      setTimeout(() => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      }, 3500);
+
+  }
+
+
+
+  /* =========================================
+     SESSION CHECK
+  ========================================= */
+
+  async function verifyAdminSession() {
+
+    const token =
+      getToken();
+
+
+    if (!token) {
+
+      window.location.replace(
+        "../index.html"
+      );
+
+      return false;
+    }
+
+
+    if (!API_BASE_URL) {
+
+      showToast(
+        "Backend URL is not configured.",
+        "error"
+      );
+
+      return false;
+    }
+
+
+    try {
+
+      const response =
+        await fetch(
+          `${API_BASE_URL}/api/auth/me`,
+          {
+            method: "GET",
+            headers: authHeaders()
+          }
+        );
+
+
+      if (
+        response.status === 401 ||
+        response.status === 403
+      ) {
+
+        clearAuth();
+
+        window.location.replace(
+          "../index.html"
+        );
+
+        return false;
+      }
+
+
+      if (!response.ok) {
+
+        showToast(
+          "Unable to verify admin session.",
+          "error"
+        );
+
+        return false;
+      }
+
+
+      return true;
+
+
+    } catch (error) {
+
+      console.error(
+        "Auth error:",
+        error
+      );
+
+
+      showToast(
+        "Backend connection failed.",
+        "error"
+      );
+
+
+      return false;
+    }
+
+  }
+
+
+
+  /* =========================================
+     API REQUEST
+  ========================================= */
+
+  async function apiRequest(
+    endpoint,
+    options = {}
+  ) {
+
+    const token =
+      getToken();
+
+
+    if (!token) {
+
+      clearAuth();
+
+      window.location.replace(
+        "../index.html"
+      );
+
+      throw new Error(
+        "Authentication required."
+      );
+    }
+
+
+    const response =
+      await fetch(
+        `${API_BASE_URL}${endpoint}`,
+        {
+          ...options,
+
+          headers: {
+            ...authHeaders(),
+            ...(options.headers || {})
+          }
+
+        }
+      );
+
+
+    if (
+      response.status === 401 ||
+      response.status === 403
+    ) {
+
+      clearAuth();
+
+      window.location.replace(
+        "../index.html"
+      );
+
+      throw new Error(
+        "Authentication expired."
+      );
+    }
+
+
+    let data = null;
+
+
+    try {
+
+      data =
+        await response.json();
+
+    } catch {
+
+      data = null;
+
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data?.message ||
+        "Request failed."
+      );
+
+    }
+
+
+    return data;
+
+  }
+
+
+
+  /* =========================================
+     STATE
+  ========================================= */
+
+  let messages = [];
+
+  let selectedMessageId = null;
+
+  let deletingMessageId = null;
+
+
+
+  /* =========================================
+     LOAD MESSAGES
+  ========================================= */
+
+  async function loadMessages() {
+
+    const list =
+      document.getElementById(
+        "messagesList"
+      );
+
+
+    list.innerHTML = `
+      <div class="loading-card">
+        <div class="loading-spinner"></div>
+        <p>Loading messages...</p>
+      </div>
+    `;
+
+
+    try {
+
+      const data =
+        await apiRequest(
+          "/api/messages",
+          {
+            method: "GET"
+          }
+        );
+
+
+      messages =
+        Array.isArray(data)
+          ? data
+          : (
+              Array.isArray(
+                data?.messages
+              )
+                ? data.messages
+                : []
+            );
+
+
+      updateStats();
+
+      renderMessages();
+
+
+    } catch (error) {
+
+      console.error(
+        "Load messages error:",
+        error
+      );
+
+
+      list.innerHTML = `
+        <div class="loading-card">
+          <p>Unable to load messages.</p>
+          <small>
+            ${escapeHtml(error.message)}
+          </small>
+        </div>
+      `;
+
+
+      showToast(
+        error.message ||
+        "Failed to load messages.",
+        "error"
+      );
+
+    }
+
+  }
+
+
+
+  /* =========================================
+     UPDATE STATS
+  ========================================= */
+
+  function updateStats() {
+
+    const total =
+      messages.length;
+
+
+    const unread =
+      messages.filter(
+        message =>
+          getMessageStatus(message) ===
+          "unread"
+      ).length;
+
+
+    const replied =
+      messages.filter(
+        message =>
+          getMessageStatus(message) ===
+          "replied"
+      ).length;
+
+
+    const archived =
+      messages.filter(
+        message =>
+          getMessageStatus(message) ===
+          "archived"
+      ).length;
+
+
+    document.getElementById(
+      "totalMessages"
+    ).textContent =
+      total;
+
+
+    document.getElementById(
+      "unreadMessages"
+    ).textContent =
+      unread;
+
+
+    document.getElementById(
+      "repliedMessages"
+    ).textContent =
+      replied;
+
+
+    document.getElementById(
+      "archivedMessages"
+    ).textContent =
+      archived;
+
+
+    const badge =
+      document.getElementById(
+        "messageBadge"
+      );
+
+
+    if (badge) {
+
+      badge.textContent =
+        unread;
+
+    }
+
+  }
+
+
+
+  /* =========================================
+     MESSAGE STATUS
+  ========================================= */
+
+  function getMessageStatus(message) {
+
+    if (
+      message.archived === true
+    ) {
+
+      return "archived";
+    }
+
+
+    const status =
+      String(
+        message.status ||
+        ""
+      ).toLowerCase();
+
+
+    if (
+      status === "replied"
+    ) {
+
+      return "replied";
+    }
+
+
+    if (
+      status === "read"
+    ) {
+
+      return "read";
+    }
+
+
+    if (
+      status === "archived"
+    ) {
+
+      return "archived";
+    }
+
+
+    if (
+      status === "unread"
+    ) {
+
+      return "unread";
+    }
+
+
+    if (
+      message.read === true ||
+      message.isRead === true
+    ) {
+
+      return "read";
+    }
+
+
+    return "unread";
+
+  }
+
+
+
+  /* =========================================
+     RENDER MESSAGES
+  ========================================= */
+
+  function renderMessages() {
+
+    const list =
+      document.getElementById(
+        "messagesList"
+      );
+
+
+    const search =
+      (
+        document.getElementById(
+          "messageSearch"
+        )?.value || ""
+      )
+      .trim()
+      .toLowerCase();
+
+
+    const filter =
+      document.getElementById(
+        "messageStatusFilter"
+      )?.value ||
+      "all";
+
+
+    const filtered =
+      messages.filter(
+        message => {
+
+          const name =
+            String(
+              message.name ||
+              message.fullName ||
+              ""
+            ).toLowerCase();
+
+
+          const email =
+            String(
+              message.email ||
+              ""
+            ).toLowerCase();
+
+
+          const subject =
+            String(
+              message.subject ||
+              ""
+            ).toLowerCase();
+
+
+          const text =
+            String(
+              message.message ||
+              message.text ||
+              ""
+            ).toLowerCase();
+
+
+          const status =
+            getMessageStatus(
+              message
+            );
+
+
+          const matchesSearch =
+            !search ||
+            name.includes(search) ||
+            email.includes(search) ||
+            subject.includes(search) ||
+            text.includes(search);
+
+
+          const matchesFilter =
+            filter === "all" ||
+            status === filter;
+
+
+          return (
+            matchesSearch &&
+            matchesFilter
+          );
+
+        }
+      );
+
+
+    if (!filtered.length) {
+
+      list.innerHTML = `
+        <div class="loading-card">
+          <p>No messages found.</p>
+          <small>
+            Try another search or filter.
+          </small>
+        </div>
+      `;
+
+      return;
+    }
+
+
+    list.innerHTML =
+      filtered
+        .map(
+          message =>
+            createMessageItem(
+              message
+            )
+        )
+        .join("");
+
+
+    attachMessageEvents();
+
+  }
+
+
+
+  /* =========================================
+     MESSAGE ITEM
+  ========================================= */
+
+  function createMessageItem(message) {
+
+    const id =
+      message.id ||
+      message._id ||
+      "";
+
+
+    const name =
+      message.name ||
+      message.fullName ||
+      "Unknown";
+
+
+    const email =
+      message.email ||
+      "No email";
+
+
+    const subject =
+      message.subject ||
+      "No subject";
+
+
+    const text =
+      message.message ||
+      message.text ||
+      "";
+
+
+    const status =
+      getMessageStatus(
+        message
+      );
+
+
+    const date =
+      formatDate(
+        message.createdAt ||
+        message.timestamp ||
+        message.date
+      );
+
+
+    const active =
+      String(
+        selectedMessageId
+      ) === String(id)
+        ? "active"
+        : "";
+
+
+    const unread =
+      status === "unread"
+        ? "unread"
+        : "";
+
+
+    return `
+      <button
+        type="button"
+        class="message-list-item ${active} ${unread}"
+        data-id="${escapeAttribute(id)}"
+      >
+
+        <div class="message-item-top">
+
+          <strong>
+            ${escapeHtml(name)}
+          </strong>
+
+          <small>
+            ${escapeHtml(date)}
+          </small>
+
+        </div>
+
+
+        <div class="message-item-email">
+          ${escapeHtml(email)}
+        </div>
+
+
+        <div class="message-item-subject">
+          ${escapeHtml(subject)}
+        </div>
+
+
+        <div class="message-item-preview">
+          ${escapeHtml(
+            truncate(text, 90)
+          )}
+        </div>
+
+
+        <span
+          class="message-status ${escapeAttribute(status)}"
+        >
+          ${escapeHtml(
+            capitalize(status)
+          )}
+        </span>
+
+      </button>
+    `;
+
+  }
+
+
+
+  /* =========================================
+     MESSAGE EVENTS
+  ========================================= */
+
+  function attachMessageEvents() {
+
+    document
+      .querySelectorAll(
+        ".message-list-item"
+      )
+      .forEach(item => {
+
+        item.addEventListener(
+          "click",
+          () => {
+
+            const id =
+              item.dataset.id;
+
+            openMessage(
+              id
+            );
+
+          }
+        );
+
+      });
+
+  }
+
+
+
+  /* =========================================
+     OPEN MESSAGE
+  ========================================= */
+
+  async function openMessage(id) {
+
+    const message =
+      messages.find(
+        item =>
+          String(
+            item.id ||
+            item._id
+          ) === String(id)
+      );
+
+
+    if (!message) {
+      return;
+    }
+
+
+    selectedMessageId =
+      message.id ||
+      message._id;
+
+
+    renderMessages();
+
+
+    renderMessageDetails(
+      message
+    );
+
+
+    if (
+      getMessageStatus(
+        message
+      ) === "unread"
+    ) {
+
+      await markMessageRead(
+        message
+      );
+
+    }
+
+  }
+
+
+
+  /* MESSAGE DETAILS */
+
+function openMessage(id) {
+  const message = messages.find(item => item.id === id);
+
+  if (!message) {
+    showToast("Message not found", "error");
+    return;
+  }
+
+  selectedMessage = message;
+
+  const detailsPanel = document.getElementById("messageDetails");
+
+  if (!detailsPanel) return;
+
+  detailsPanel.innerHTML = `
+    <div class="details-header">
+      <div>
+        <span class="details-label">MESSAGE DETAILS</span>
+        <h2>${escapeHTML(message.subject || "No Subject")}</h2>
+      </div>
+
+      <button class="close-details" onclick="closeMessageDetails()">
+        ×
+      </button>
+    </div>
+
+    <div class="sender-info">
+      <div class="sender-avatar">
+        ${escapeHTML((message.name || "U").charAt(0).toUpperCase())}
+      </div>
+
+      <div class="sender-data">
+        <strong>${escapeHTML(message.name || "Unknown User")}</strong>
+        <span>${escapeHTML(message.email || "No email")}</span>
+      </div>
+    </div>
+
+    <div class="message-meta">
+      <div>
+        <span>Received</span>
+        <strong>${formatDate(message.createdAt)}</strong>
+      </div>
+
+      <div>
+        <span>Status</span>
+        <strong class="status ${getStatusClass(message)}">
+          ${getStatusText(message)}
+        </strong>
+      </div>
+    </div>
+
+    <div class="message-body">
+      <span class="details-label">MESSAGE</span>
+
+      <div class="message-content">
+        ${escapeHTML(message.message || "No message content.")}
+      </div>
+    </div>
+
+    <div class="details-actions">
+
+      ${
+        !message.read
+          ? `
+            <button
+              class="action-btn primary"
+              onclick="markAsRead('${message.id}')"
+            >
+              ✓ Mark as Read
+            </button>
+          `
+          : ""
+      }
+
+      ${
+        !message.replied
+          ? `
+            <button
+              class="action-btn"
+              onclick="replyToMessage('${message.id}')"
+            >
+              ↩ Reply
+            </button>
+          `
+          : ""
+      }
+
+      <button
+        class="action-btn danger"
+        onclick="deleteMessage('${message.id}')"
+      >
+        🗑 Delete
+      </button>
+
+    </div>
+  `;
+
+  detailsPanel.classList.add("active");
+
+  if (!message.read) {
+    markAsRead(message.id, false);
+  }
+}
+
+
+/* CLOSE MESSAGE DETAILS */
+
+function closeMessageDetails() {
+  const detailsPanel = document.getElementById("messageDetails");
+
+  if (detailsPanel) {
+    detailsPanel.classList.remove("active");
+  }
+
+  selectedMessage = null;
+}
+
+
+/* MARK AS READ */
+
+async function markAsRead(id, showNotification = true) {
+  try {
+    const token = getToken();
+
+    if (!token) {
+      logout();
+      return;
+    }
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/messages/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeaders()
+        },
+        body: JSON.stringify({
+          read: true
+        })
+      }
+    );
+
+    if (response.status === 401 || response.status === 403) {
+      logout();
+      return;
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to update message");
+    }
+
+    const message = messages.find(item => item.id === id);
+
+    if (message) {
+      message.read = true;
+    }
+
+    renderMessages();
+    updateStats();
+
+    if (selectedMessage && selectedMessage.id === id) {
+      selectedMessage.read = true;
+      openMessage(id);
+    }
+
+    if (showNotification) {
+      showToast("Message marked as read", "success");
+    }
+
+  } catch (error) {
+    console.error("Mark as read error:", error);
+    showToast(error.message || "Failed to mark message as read", "error");
+  }
+}
+
+
+/* REPLY TO MESSAGE */
+
+function replyToMessage(id) {
+  const message = messages.find(item => item.id === id);
+
+  if (!message || !message.email) {
+    showToast("Email address not available", "error");
+    return;
+  }
+
+  const subject = message.subject
+    ? `Re: ${message.subject}`
+    : "Re: Your message";
+
+  const mailto = `mailto:${encodeURIComponent(
+    message.email
+  )}?subject=${encodeURIComponent(subject)}`;
+
+  window.location.href = mailto;
+
+  markAsReplied(id);
+}
+
+
+/* MARK AS REPLIED */
+
+async function markAsReplied(id) {
+  try {
+    const token = getToken();
+
+    if (!token) {
+      logout();
+      return;
+    }
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/messages/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeaders()
+        },
+        body: JSON.stringify({
+          replied: true
+        })
+      }
+    );
+
+    if (response.status === 401 || response.status === 403) {
+      logout();
+      return;
+    }
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.message || "Failed to update reply status");
+    }
+
+    const message = messages.find(item => item.id === id);
+
+    if (message) {
+      message.replied = true;
+    }
+
+    updateStats();
+    renderMessages();
+
+  } catch (error) {
+    console.error("Mark as replied error:", error);
+  }
+}
+
+
+/* DELETE MESSAGE */
+
+function deleteMessage(id) {
+  const message = messages.find(item => item.id === id);
+
+  if (!message) {
+    showToast("Message not found", "error");
+    return;
+  }
+
+  selectedMessage = message;
+
+  const deleteModal = document.getElementById("deleteModal");
+
+  if (deleteModal) {
+    deleteModal.classList.add("active");
+  }
+}
+
+
+/* CONFIRM DELETE */
+
+async function confirmDelete() {
+  if (!selectedMessage) return;
+
+  const id = selectedMessage.id;
+
+  try {
+    const token = getToken();
+
+    if (!token) {
+      logout();
+      return;
+    }
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/messages/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          ...authHeaders()
+        }
+      }
+    );
+
+    if (response.status === 401 || response.status === 403) {
+      logout();
+      return;
+    }
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to delete message");
+    }
+
+    messages = messages.filter(item => item.id !== id);
+
+    closeDeleteModal();
+    closeMessageDetails();
+
+    renderMessages();
+    updateStats();
+
+    showToast("Message deleted successfully", "success");
+
+  } catch (error) {
+    console.error("Delete message error:", error);
+    showToast(error.message || "Failed to delete message", "error");
+  }
+}
+
+
+/* CLOSE DELETE MODAL */
+
+function closeDeleteModal() {
+  const deleteModal = document.getElementById("deleteModal");
+
+  if (deleteModal) {
+    deleteModal.classList.remove("active");
+  }
+}
+
+
+/* SEARCH */
+
+function handleSearch() {
+  const searchInput = document.getElementById("searchInput");
+
+  searchQuery = searchInput
+    ? searchInput.value.toLowerCase().trim()
+    : "";
+
+  renderMessages();
+}
+
+
+/* FILTER */
+
+function handleFilter() {
+  const filter = document.getElementById("statusFilter");
+
+  currentFilter = filter ? filter.value : "all";
+
+  renderMessages();
+}
+
+
+/* RENDER MESSAGES */
+
+function renderMessages() {
+  const container = document.getElementById("messagesList");
+
+  if (!container) return;
+
+  let filteredMessages = [...messages];
+
+  if (currentFilter !== "all") {
+    filteredMessages = filteredMessages.filter(message => {
+
+      if (currentFilter === "unread") {
+        return !message.read;
+      }
+
+      if (currentFilter === "read") {
+        return message.read && !message.replied;
+      }
+
+      if (currentFilter === "replied") {
+        return message.replied;
+      }
+
+      if (currentFilter === "archived") {
+        return message.archived;
+      }
+
+      return true;
+    });
+  }
+
+  if (searchQuery) {
+    filteredMessages = filteredMessages.filter(message => {
+
+      const searchableText = `
+        ${message.name || ""}
+        ${message.email || ""}
+        ${message.subject || ""}
+        ${message.message || ""}
+      `.toLowerCase();
+
+      return searchableText.includes(searchQuery);
+    });
+  }
+
+  if (!filteredMessages.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">✉</div>
+        <h3>No messages found</h3>
+        <p>
+          ${
+            searchQuery || currentFilter !== "all"
+              ? "Try changing your search or filter."
+              : "Your inbox is currently empty."
+          }
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML = filteredMessages
+    .map(message => {
+
+      const unreadClass = message.read ? "" : "unread";
+
+      return `
+        <div
+          class="message-card ${unreadClass}"
+          onclick="openMessage('${message.id}')"
+        >
+
+          <div class="message-avatar">
+            ${escapeHTML(
+              (message.name || "U").charAt(0).toUpperCase()
+            )}
+          </div>
+
+          <div class="message-info">
+
+            <div class="message-top">
+
+              <strong>
+                ${escapeHTML(message.name || "Unknown User")}
+              </strong>
+
+              <span class="message-date">
+                ${formatDate(message.createdAt)}
+              </span>
+
+            </div>
+
+            <div class="message-email">
+              ${escapeHTML(message.email || "No email")}
+            </div>
+
+            <div class="message-subject">
+              ${escapeHTML(message.subject || "No Subject")}
+            </div>
+
+            <div class="message-preview">
+              ${escapeHTML(
+                truncateText(message.message || "", 120)
+              )}
+            </div>
+
+          </div>
+
+          <div class="message-status">
+
+            ${
+              !message.read
+                ? `<span class="status-dot"></span>`
+                : ""
+            }
+
+            ${
+              message.replied
+                ? `<span class="status-badge replied">Replied</span>`
+                : ""
+            }
+
+            ${
+              message.archived
+                ? `<span class="status-badge archived">Archived</span>`
+                : ""
+            }
+
+          </div>
+
+        </div>
+      `;
+    })
+    .join("");
+}
+
+
+/* UPDATE STATS */
+
+function updateStats() {
+  const total = messages.length;
+
+  const unread = messages.filter(
+    message => !message.read
+  ).length;
+
+  const replied = messages.filter(
+    message => message.replied
+  ).length;
+
+  const archived = messages.filter(
+    message => message.archived
+  ).length;
+
+  const totalElement = document.getElementById("totalMessages");
+  const unreadElement = document.getElementById("unreadMessages");
+  const repliedElement = document.getElementById("repliedMessages");
+  const archivedElement = document.getElementById("archivedMessages");
+
+  if (totalElement) {
+    totalElement.textContent = total;
+  }
+
+  if (unreadElement) {
+    unreadElement.textContent = unread;
+  }
+
+  if (repliedElement) {
+    repliedElement.textContent = replied;
+  }
+
+  if (archivedElement) {
+    archivedElement.textContent = archived;
+  }
+}
+
+
+/* GET STATUS */
+
+function getStatusClass(message) {
+  if (message.archived) return "archived";
+  if (message.replied) return "replied";
+  if (!message.read) return "unread";
+  return "read";
+}
+
+
+function getStatusText(message) {
+  if (message.archived) return "Archived";
+  if (message.replied) return "Replied";
+  if (!message.read) return "Unread";
+  return "Read";
+}
+
+
+/* FORMAT DATE */
+
+function formatDate(timestamp) {
+  if (!timestamp) return "Unknown date";
+
+  try {
+    let date;
+
+    if (
+      typeof timestamp === "object" &&
+      timestamp.seconds
+    ) {
+      date = new Date(timestamp.seconds * 1000);
+    } else {
+      date = new Date(timestamp);
+    }
+
+    if (Number.isNaN(date.getTime())) {
+      return "Unknown date";
+    }
+
+    return date.toLocaleString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+  } catch (error) {
+    return "Unknown date";
+  }
+}
+
+
+/* TRUNCATE TEXT */
+
+function truncateText(text, maxLength = 100) {
+  if (!text) return "";
+
+  text = String(text);
+
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  return `${text.substring(0, maxLength)}...`;
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(value) {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* TOAST */
+
+function showToast(message, type = "success") {
+  let toast = document.getElementById("toast");
+
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast";
+    toast.className = "toast";
+
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.className = `toast ${type} show`;
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+
+/* MOBILE SIDEBAR */
+
+function toggleSidebar() {
+  const sidebar = document.querySelector(".sidebar");
+
+  if (sidebar) {
+    sidebar.classList.toggle("active");
+  }
+}
+
+
+/* REFRESH */
+
+async function refreshMessages() {
+  const refreshButton = document.getElementById("refreshButton");
+
+  if (refreshButton) {
+    refreshButton.classList.add("loading");
+  }
+
+  await loadMessages();
+
+  if (refreshButton) {
+    refreshButton.classList.remove("loading");
+  }
+}
+
+
+/* LOGOUT */
+
+function logout() {
+  localStorage.removeItem("adminToken");
+  localStorage.removeItem("adminUser");
+
+  sessionStorage.removeItem("adminToken");
+  sessionStorage.removeItem("adminUser");
+
+  window.location.href = "../index.html";
+}
+
+
+/* AUTH HEADERS */
+
+function getToken() {
+  return (
+    localStorage.getItem("adminToken") ||
+    sessionStorage.getItem("adminToken") ||
+    ""
+  );
+}
+
+function authHeaders() {
+  const token = getToken();
+
+  return token
+    ? {
+        Authorization: `Bearer ${token}`
+      }
+    : {};
+}
+
+
+/* INITIALIZE */
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const token = getToken();
+
+  if (!token) {
+    window.location.href = "../index.html";
+    return;
+  }
+
+  try {
+    await checkAuth();
+    await loadMessages();
+  } catch (error) {
+    console.error("Initialization error:", error);
+  }
+
+});
+
+
+/* CLOSE MODALS ON BACKDROP CLICK */
+
+document.addEventListener("click", event => {
+
+  const deleteModal = document.getElementById("deleteModal");
+
+  if (
+    deleteModal &&
+    event.target === deleteModal
+  ) {
+    closeDeleteModal();
+  }
+
+});
+
+
+/* ESC KEY */
+
+document.addEventListener("keydown", event => {
+
+  if (event.key === "Escape") {
+    closeMessageDetails();
+    closeDeleteModal();
+  }
+
+});
+       </script>
+       
+ </body>
+ </html>
