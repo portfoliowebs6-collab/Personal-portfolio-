@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Deepak Kewat Admin Dashboard"
+  >
+
+  <title>Admin Dashboard | Deepak Kewat</title>
+
+  <!--
+    Backend API URL
+    Same domain ho to "" rakho.
+    Alag backend deploy ho to apna backend URL daalo.
+  -->
+  <script>
+    window.API_BASE_URL = "";
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =====================================================
+       APP
+  ====================================================== -->
+
+  <div class="admin-app">
+
+    <!-- ===================================================
+         SIDEBAR
+    ==================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+      <div class="sidebar-header">
+
+        <a href="dashboard.html" class="admin-logo">
+          <span class="logo-mark">DK</span>
+
+          <span class="logo-text">
+            <strong>Deepak</strong>
+            <small>Admin Panel</small>
+          </span>
+        </a>
+
+        <button
+          type="button"
+          class="sidebar-close"
+          id="sidebarClose"
+          aria-label="Close menu"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <!-- Navigation -->
+
+      <nav class="sidebar-nav">
+
+        <p class="nav-label">
+          MAIN
+        </p>
+
+        <a
+          href="dashboard.html"
+          class="nav-item active"
+        >
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </a>
+
+
+        <p class="nav-label">
+          MANAGEMENT
+        </p>
+
+        <a
+          href="pages/projects.html"
+          class="nav-item"
+        >
+          <span class="nav-icon">▣</span>
+          <span>Projects</span>
+        </a>
+
+        <a
+          href="pages/messages.html"
+          class="nav-item"
+        >
+          <span class="nav-icon">✉</span>
+          <span>Messages</span>
+
+          <span
+            class="nav-badge"
+            id="messageBadge"
+          >
+            0
+          </span>
+        </a>
+
+        <a
+          href="pages/blog.html"
+          class="nav-item"
+        >
+          <span class="nav-icon">✎</span>
+          <span>Blog</span>
+        </a>
+
+
+        <p class="nav-label">
+          INSIGHTS
+        </p>
+
+        <a
+          href="pages/analytics.html"
+          class="nav-item"
+        >
+          <span class="nav-icon">⌁</span>
+          <span>Analytics</span>
+        </a>
+
+        <a
+          href="pages/users.html"
+          class="nav-item"
+        >
+          <span class="nav-icon">♙</span>
+          <span>Users</span>
+        </a>
+
+
+        <p class="nav-label">
+          SYSTEM
+        </p>
+
+        <a
+          href="pages/settings.html"
+          class="nav-item"
+        >
+          <span class="nav-icon">⚙</span>
+          <span>Settings</span>
+        </a>
+
+      </nav>
+
+
+      <!-- Sidebar Bottom -->
+
+      <div class="sidebar-bottom">
+
+        <a
+          href="../portfolio/index.html"
+          target="_blank"
+          class="view-site"
+        >
+          <span>↗</span>
+          <span>View Website</span>
+        </a>
+
+        <button
+          type="button"
+          id="logoutButton"
+          class="logout-button"
+        >
+          <span>⇥</span>
+          <span>Logout</span>
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- ===================================================
+         MAIN CONTENT
+    ==================================================== -->
+
+    <main class="main-content">
+
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
+
+          <div>
+            <p class="page-kicker">
+              CONTROL CENTER
+            </p>
+
+            <h1>
+              Dashboard
+            </h1>
+          </div>
+
+        </div>
+
+
+        <div class="topbar-right">
+
+          <button
+            type="button"
+            class="icon-button"
+            id="refreshButton"
+            title="Refresh dashboard"
+          >
+            ↻
+          </button>
+
+          <a
+            href="pages/settings.html"
+            class="icon-button"
+            title="Settings"
+          >
+            ⚙
+          </a>
+
+          <div class="admin-profile">
+
+            <div class="profile-avatar">
+              DK
+            </div>
+
+            <div class="profile-info">
+              <strong>Admin</strong>
+              <small>Administrator</small>
+            </div>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+
+      <section class="dashboard-content">
+
+
+        <!-- Welcome -->
+
+        <div class="welcome-card">
+
+          <div class="welcome-content">
+
+            <span class="welcome-label">
+              ADMIN CONTROL CENTER
+            </span>
+
+            <h2>
+              Welcome back, Deepak 👋
+            </h2>
+
+            <p>
+              Manage your portfolio, projects,
+              messages, blog and website analytics
+              from one place.
+            </p>
+
+          </div>
+
+          <div class="welcome-decoration">
+            <div class="orb orb-one"></div>
+            <div class="orb orb-two"></div>
+            <div class="orb orb-three"></div>
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STAT CARDS
+        ================================================== -->
+
+        <div class="stats-grid">
+
+
+          <!-- Visitors -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-icon">
+                ◉
+              </div>
+
+              <span class="stat-period">
+                7 DAYS
+              </span>
+
+            </div>
+
+            <div class="stat-value" id="totalVisitors">
+              —
+            </div>
+
+            <div class="stat-label">
+              Total Visitors
+            </div>
+
+            <div class="stat-footer">
+              <span class="stat-live">
+                ● Live data
+              </span>
+            </div>
+
+          </article>
+
+
+          <!-- Page Views -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-icon">
+                ◫
+              </div>
+
+              <span class="stat-period">
+                7 DAYS
+              </span>
+
+            </div>
+
+            <div class="stat-value" id="totalPageViews">
+              —
+            </div>
+
+            <div class="stat-label">
+              Page Views
+            </div>
+
+            <div class="stat-footer">
+              <span class="stat-live">
+                ● Live data
+              </span>
+            </div>
+
+          </article>
+
+
+          <!-- Today -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-icon">
+                ◷
+              </div>
+
+              <span class="stat-period">
+                TODAY
+              </span>
+
+            </div>
+
+            <div class="stat-value" id="todayVisitors">
+              —
+            </div>
+
+            <div class="stat-label">
+              Today's Visitors
+            </div>
+
+            <div class="stat-footer">
+              <span class="stat-live">
+                ● Tracking
+              </span>
+            </div>
+
+          </article>
+
+
+          <!-- Messages -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-icon">
+                ✉
+              </div>
+
+              <span class="stat-period">
+                INBOX
+              </span>
+
+            </div>
+
+            <div class="stat-value" id="totalMessages">
+              —
+            </div>
+
+            <div class="stat-label">
+              Messages
+            </div>
+
+            <div class="stat-footer">
+              <span
+                class="stat-live"
+                id="unreadMessages"
+              >
+                Checking...
+              </span>
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             ANALYTICS + QUICK ACTIONS
+        ================================================== -->
+
+        <div class="dashboard-grid">
+
+
+          <!-- Analytics -->
+
+          <section class="panel analytics-panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <span class="panel-kicker">
+                  TRAFFIC OVERVIEW
+                </span>
+
+                <h3>
+                  Website Analytics
+                </h3>
+
+              </div>
+
+              <a
+                href="pages/analytics.html"
+                class="panel-action"
+              >
+                View Details →
+              </a>
+
+            </div>
+
+
+            <!-- Chart -->
+
+            <div
+              class="chart-container"
+              id="dashboardChart"
+            >
+
+              <div class="chart-placeholder">
+
+                <div class="chart-bars">
+
+                  <span style="height:25%"></span>
+                  <span style="height:42%"></span>
+                  <span style="height:34%"></span>
+                  <span style="height:60%"></span>
+                  <span style="height:48%"></span>
+                  <span style="height:72%"></span>
+                  <span style="height:55%"></span>
+
+                </div>
+
+                <p>
+                  Loading analytics...
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="chart-footer">
+
+              <div>
+                <strong id="chartVisitors">
+                  —
+                </strong>
+                <span>
+                  Visitors
+                </span>
+              </div>
+
+              <div>
+                <strong id="chartViews">
+                  —
+                </strong>
+                <span>
+                  Page Views
+                </span>
+              </div>
+
+              <div>
+                <strong id="chartPeriod">
+                  7 Days
+                </strong>
+                <span>
+                  Period
+                </span>
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- Quick Actions -->
+
+          <section class="panel quick-panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <span class="panel-kicker">
+                  SHORTCUTS
+                </span>
+
+                <h3>
+                  Quick Actions
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+              <a
+                href="pages/projects.html"
+                class="quick-action"
+              >
+                <span class="quick-icon">
+                  ＋
+                </span>
+
+                <span>
+                  <strong>
+                    Add Project
+                  </strong>
+
+                  <small>
+                    Create a new portfolio project
+                  </small>
+                </span>
+
+                <b>→</b>
+              </a>
+
+
+              <a
+                href="pages/blog.html"
+                class="quick-action"
+              >
+                <span class="quick-icon">
+                  ✎
+                </span>
+
+                <span>
+                  <strong>
+                    Write Blog
+                  </strong>
+
+                  <small>
+                    Publish a new article
+                  </small>
+                </span>
+
+                <b>→</b>
+              </a>
+
+
+              <a
+                href="pages/messages.html"
+                class="quick-action"
+              >
+                <span class="quick-icon">
+                  ✉
+                </span>
+
+                <span>
+                  <strong>
+                    View Messages
+                  </strong>
+
+                  <small>
+                    Check contact submissions
+                  </small>
+                </span>
+
+                <b>→</b>
+              </a>
+
+
+              <a
+                href="pages/analytics.html"
+                class="quick-action"
+              >
+                <span class="quick-icon">
+                  ◫
+                </span>
+
+                <span>
+                  <strong>
+                    Analytics
+                  </strong>
+
+                  <small>
+                    Explore website traffic
+                  </small>
+                </span>
+
+                <b>→</b>
+              </a>
+
+            </div>
+
+          </section>
+
+        </div>
+
+
+        <!-- =================================================
+             LOWER GRID
+        ================================================== -->
+
+        <div class="dashboard-grid lower-grid">
+
+
+          <!-- Recent Messages -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <span class="panel-kicker">
+                  COMMUNICATION
+                </span>
+
+                <h3>
+                  Recent Messages
+                </h3>
+
+              </div>
+
+              <a
+                href="pages/messages.html"
+                class="panel-action"
+              >
+                View All →
+              </a>
+
+            </div>
+
+
+            <div
+              class="message-list"
+              id="recentMessages"
+            >
+
+              <div class="empty-state">
+
+                <div class="empty-icon">
+                  ✉
+                </div>
+
+                <p>
+                  Loading messages...
+                </p>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- Recent Projects -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+
+                <span class="panel-kicker">
+                  PORTFOLIO
+                </span>
+
+                <h3>
+                  Recent Projects
+                </h3>
+
+              </div>
+
+              <a
+                href="pages/projects.html"
+                class="panel-action"
+              >
+                Manage →
+              </a>
+
+            </div>
+
+
+            <div
+              class="project-list"
+              id="recentProjects"
+            >
+
+              <div class="empty-state">
+
+                <div class="empty-icon">
+                  ▣
+                </div>
+
+                <p>
+                  Loading projects...
+                </p>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </div>
+
+
+        <!-- =================================================
+             SYSTEM STATUS
+        ================================================== -->
+
+        <section class="panel system-panel">
+
+          <div class="panel-header">
+
+            <div>
+
+              <span class="panel-kicker">
+                SYSTEM
+              </span>
+
+              <h3>
+                System Status
+              </h3>
+
+            </div>
+
+            <span
+              class="system-status"
+              id="systemStatus"
+            >
+              Checking...
+            </span>
+
+          </div>
+
+
+          <div class="system-grid">
+
+            <div class="system-item">
+
+              <span class="system-dot"></span>
+
+              <div>
+                <strong>
+                  Backend API
+                </strong>
+
+                <small id="backendStatus">
+                  Checking connection...
+                </small>
+              </div>
+
+            </div>
+
+
+            <div class="system-item">
+
+              <span class="system-dot"></span>
+
+              <div>
+                <strong>
+                  Authentication
+                </strong>
+
+                <small>
+                  JWT protected
+                </small>
+              </div>
+
+            </div>
+
+
+            <div class="system-item">
+
+              <span class="system-dot"></span>
+
+              <div>
+                <strong>
+                  Database
+                </strong>
+
+                <small>
+                  Firebase / Firestore
+                </small>
+              </div>
+
+            </div>
+
+
+            <div class="system-item">
+
+              <span class="system-dot"></span>
+
+              <div>
+                <strong>
+                  Analytics
+                </strong>
+
+                <small>
+                  Visitor tracking
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- Footer -->
+
+        <footer class="dashboard-footer">
+
+          <span>
+            © 2026 Deepak Kewat
+          </span>
+
+          <span>
+            Admin Dashboard
+          </span>
+
+        </footer>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- =====================================================
+       TOAST
+  ====================================================== -->
+
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  >
+    <span id="toastMessage"></span>
+  </div>
+
+
+  <!-- =====================================================
+       DASHBOARD SCRIPT
+  ====================================================== -->
+
+  <script>
+    "use strict";
+
+    const API_BASE_URL =
+      (window.API_BASE_URL || "").replace(/\/$/, "");
+
+    const adminToken =
+      sessionStorage.getItem("adminToken");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Guard
+    |--------------------------------------------------------------------------
+    */
+
+    if (!adminToken) {
+      window.location.href = "index.html";
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DOM
+    |--------------------------------------------------------------------------
+    */
+
+    const sidebar =
+      document.getElementById("sidebar");
+
+    const menuButton =
+      document.getElementById("menuButton");
+
+    const sidebarClose =
+      document.getElementById("sidebarClose");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const refreshButton =
+      document.getElementById("refreshButton");
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mobile Sidebar
+    |--------------------------------------------------------------------------
+    */
+
+    menuButton?.addEventListener(
+      "click",
+      () => {
+        sidebar?.classList.add("open");
+      }
+    );
+
+    sidebarClose?.addEventListener(
+      "click",
+      () => {
+        sidebar?.classList.remove("open");
+      }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logout
+    |--------------------------------------------------------------------------
+    */
+
+    logoutButton?.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          await fetch(
+            `${API_BASE_URL}/api/auth/logout`,
+            {
+              method: "POST",
+              headers: {
+                Authorization:
+                  `Bearer ${adminToken}`
+              }
+            }
+          );
+
+        } catch (error) {
+          console.warn(
+            "Logout API unavailable."
+          );
+        }
+
+        sessionStorage.removeItem(
+          "adminToken"
+        );
+
+        window.location.href =
+          "index.html";
+      }
+    );
+
+
+    /*
+    |---------------------------------------------------
