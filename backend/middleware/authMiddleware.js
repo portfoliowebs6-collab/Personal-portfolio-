@@ -3,24 +3,24 @@
 const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_ISSUER = "deepak-kewat-portfolio";
 
 function authMiddleware(req, res, next) {
+  if (!JWT_SECRET) {
+    console.error("❌ JWT_SECRET is not configured.");
+    return res.status(500).json({
+      success: false,
+      message: "Server authentication configuration error."
+    });
+  }
+
   try {
-    if (!JWT_SECRET) {
-      console.error("JWT_SECRET is not configured.");
+    const authHeader = req.headers.authorization || "";
 
-      return res.status(500).json({
-        success: false,
-        message: "Authentication service is not configured."
-      });
-    }
-
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         success: false,
-        message: "Authentication token is required."
+        message: "Authentication required."
       });
     }
 
@@ -34,7 +34,7 @@ function authMiddleware(req, res, next) {
     }
 
     const decoded = jwt.verify(token, JWT_SECRET, {
-      issuer: "deepak-kewat-portfolio"
+      issuer: JWT_ISSUER
     });
 
     if (!decoded || decoded.role !== "admin") {
@@ -44,19 +44,16 @@ function authMiddleware(req, res, next) {
       });
     }
 
-    req.admin = {
-      role: decoded.role,
-      type: decoded.type,
-      iat: decoded.iat,
-      exp: decoded.exp
-    };
+    req.user = decoded;
 
     next();
   } catch (error) {
+    console.error("❌ Authentication error:", error.message);
+
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
         success: false,
-        message: "Session expired. Please login again."
+        message: "Authentication token has expired."
       });
     }
 
@@ -67,23 +64,11 @@ function authMiddleware(req, res, next) {
       });
     }
 
-    console.error("Authentication middleware error:", error);
-
-    return res.status(500).json({
+    return res.status(401).json({
       success: false,
-      message: "Authentication verification failed."
+      message: "Authentication failed."
     });
   }
 }
 
 module.exports = authMiddleware;
-
-File location exactly:
-
-backend/
-└── middleware/
-    └── authMiddleware.js
-
-Ab hamara login + JWT security layer complete hai. 🔒
-
-Next step: "backend/routes/projects.js" — jisse admin panel se projects add, edit aur delete kar sakenge.
