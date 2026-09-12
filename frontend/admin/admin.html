@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Deepak Kewat</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        accentBlue: '#3b82f6',
+                        accentPurple: '#8b5cf6'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="bg-darkBg text-gray-100 min-h-screen font-sans selection:bg-blue-500 selection:text-white">
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-container" class="flex items-center justify-center min-h-screen px-4">
+        <div class="bg-cardBg border border-gray-800 p-8 rounded-3xl shadow-2xl w-full max-w-md relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
+            <div class="text-center mb-8">
+                <span class="text-3xl text-blue-500 font-bold">&lt;/&gt;</span>
+                <h2 class="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Admin Panel Login</h2>
+                <p class="text-gray-400 text-xs mt-1">Manage your portfolio backend & database</p>
+            </div>
+            
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Username</label>
+                    <input type="text" id="username" required class="w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-xl focus:outline-none focus:border-blue-500 text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Password</label>
+                    <input type="password" id="password" required class="w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-xl focus:outline-none focus:border-blue-500 text-sm text-white">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 font-semibold text-sm rounded-xl shadow-lg shadow-blue-600/30 transition duration-200">Access Dashboard</button>
+                <p id="login-error" class="text-red-400 text-xs text-center mt-2 hidden"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD PANEL -->
+    <div id="dashboard-container" class="hidden flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-cardBg border-r border-gray-800 flex flex-col justify-between hidden md:flex">
+            <div>
+                <!-- Brand / Logo -->
+                <div class="p-6 flex items-center space-x-2 border-b border-gray-800/60">
+                    <span class="text-blue-500 font-bold">&lt;/&gt;</span>
+                    <div>
+                        <h1 class="text-sm font-bold tracking-wider text-white">Deepak Kewat</h1>
+                        <p class="text-[10px] text-gray-400">Admin Panel</p>
+                    </div>
+                </div>
+                <!-- Nav Links -->
+                <nav class="p-4 space-y-1">
+                    <a href="#" class="flex items-center space-x-3 px-4 py-3 bg-gradient-to-r from-blue-600/20 to-purple-600/20 text-blue-400 rounded-xl font-medium text-sm border border-blue-500/20"><i class="fa-solid fa-chart-pie w-5"></i><span>Dashboard</span></a>
+                    <a href="#projects" class="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-gray-800/50 hover:text-white rounded-xl transition text-sm"><i class="fa-solid fa-folder-open w-5"></i><span>Projects</span></a>
+                    <a href="#messages" class="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-gray-800/50 hover:text-white rounded-xl transition text-sm"><i class="fa-solid fa-envelope w-5"></i><span>Messages</span></a>
+                    <a href="../index.html" target="_blank" class="flex items-center space-x-3 px-4 py-3 text-gray-400 hover:bg-gray-800/50 hover:text-white rounded-xl transition text-sm"><i class="fa-solid fa-globe w-5"></i><span>Live Portfolio</span></a>
+                </nav>
+            </div>
+            <!-- Version & Logout -->
+            <div class="p-4 border-t border-gray-800 space-y-3">
+                <div class="flex items-center justify-between text-xs text-gray-500 px-2">
+                    <span>v1.0.0</span>
+                    <button id="logout-btn" class="text-red-400 hover:text-red-300 font-semibold"><i class="fa-solid fa-right-from-bracket mr-1"></i> Logout</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-darkBg">
+            
+            <!-- Top Control Bar -->
+            <header class="sticky top-0 z-20 backdrop-blur-md bg-darkBg/80 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-4 w-full max-w-md">
+                    <div class="relative w-full">
+                        <i class="fa-solid fa-search absolute left-3.5 top-3 text-xs text-gray-500"></i>
+                        <input type="text" placeholder="Search anything... Ctrl + K" class="w-full pl-10 pr-12 py-2 bg-cardBg border border-gray-800 rounded-xl text-xs text-gray-300 focus:outline-none focus:border-blue-500">
+                        <span class="absolute right-3 top-2 px-1.5 py-0.5 bg-gray-800 text-[10px] text-gray-400 rounded border border-gray-700">Ctrl + K</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="w-9 h-9 rounded-xl bg-cardBg border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white relative">
+                        <i class="fa-regular fa-bell text-sm"></i>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-blue-500 rounded-full"></span>
+                    </button>
+                    <div class="flex items-center space-x-3 pl-2 border-l border-gray-800">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Admin" class="w-9 h-9 rounded-xl object-cover border border-blue-500/30">
+                        <div class="hidden sm:block text-left">
+                            <h4 class="text-xs font-bold text-white">Deepak Kewat</h4>
+                            <p class="text-[10px] text-gray-400">Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-6 md:p-8 space-y-8">
+                <!-- Welcome Banner & Date -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight">Dashboard</h2>
+                        <p class="text-gray-400 text-xs mt-0.5">Welcome back, Deepak! Here's what's happening with your portfolio.</p>
+                    </div>
+                    <div class="flex items-center space-x-2 px-4 py-2 bg-cardBg border border-gray-800 rounded-xl text-xs text-gray-300">
+                        <i class="fa-regular fa-calendar text-blue-400"></i>
+                        <span id="current-date">Sep 11, 2026</span>
+                    </div>
+                </div>
+
+                <!-- Overview Metrics Cards (4 Grid) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Card 1: Total Projects -->
+                    <div class="bg-cardBg border border-gray-800 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-gray-400 font-medium">Total Projects</span>
+                            <div class="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-folder text-xs"></i></div>
+                        </div>
+                        <h3 id="stat-projects" class="text-3xl font-extrabold text-white">5</h3>
+                        <div class="flex items-center space-x-1 text-[11px] text-emerald-400 mt-2 font-medium">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>+2 new</span>
+                        </div>
+                    </div>
+                    <!-- Card 2: Total Visitors -->
+                    <div class="bg-cardBg border border-gray-800 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-gray-400 font-medium">Total Visitors</span>
+                            <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400"><i class="fa-solid fa-users text-xs"></i></div>
+                        </div>
+                        <h3 class="text-3xl font-extrabold text-white">1,248</h3>
+                        <div class="flex items-center space-x-1 text-[11px] text-emerald-400 mt-2 font-medium">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>+12%</span>
+                        </div>
+                    </div>
+                    <!-- Card 3: Messages -->
+                    <div class="bg-cardBg border border-gray-800 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-gray-400 font-medium">Messages</span>
+                            <div class="w-8 h-8 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400"><i class="fa-solid fa-envelope text-xs"></i></div>
+                        </div>
+                        <h3 id="stat-messages" class="text-3xl font-extrabold text-white">3</h3>
+                        <div class="flex items-center space-x-1 text-[11px] text-rose-400 mt-2 font-medium">
+                            <i class="fa-solid fa-arrow-trend-down"></i>
+                            <span>1 new</span>
+                        </div>
+                    </div>
+                    <!-- Card 4: Uptime -->
+                    <div class="bg-cardBg border border-gray-800 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs text-gray-400 font-medium">Uptime</span>
+                            <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400"><i class="fa-solid fa-shield text-xs"></i></div>
+                        </div>
+                        <h3 class="text-3xl font-extrabold text-white">99.9%</h3>
+                        <div class="flex items-center space-x-1 text-[11px] text-emerald-400 mt-2 font-medium">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Stable</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Website Analytics Graph Section -->
+                <div class="bg-cardBg border border-gray-800 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="font-bold text-base">Website Analytics</h3>
+                            <p class="text-xs text-gray-400">Traffic performance over the past week</p>
+                        </div>
+                        <select class="bg-gray-900 border border-gray-700 text-xs px-3 py-1.5 rounded-xl text-gray-300 focus:outline-none">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                        </select>
+                    </div>
+                    <!-- Simulated Graph Area -->
+                    <div class="h-44 w-full bg-gradient-to-t from-blue-600/10 via-transparent to-transparent border-b border-gray-800 flex items-end justify-between px-2 pt-4 relative">
+                        <div class="absolute top-4 right-4 bg-gray-900/80 border border-gray-700 px-2 py-1 rounded-lg text-[10px] text-blue-400 font-semibold">Sep 11: 892 Visitors</div>
+                        <!-- Graph curve points/bars placeholder -->
+                        <div class="w-1/7 bg-blue-500/20 h-1/4 rounded-t"></div>
+                        <div class="w-1/7 bg-blue-500/30 h-2/5 rounded-t"></div>
+                        <div class="w-1/7 bg-blue-500/40 h-1/2 rounded-t"></div>
+                        <div class="w-1/7 bg-blue-500/60 h-3/4 rounded-t"></div>
+                        <div class="w-1/7 bg-blue-500/70 h-2/3 rounded-t"></div>
+                        <div class="w-1/7 bg-blue-500/80 h-4/5 rounded-t"></div>
+                        <div class="w-1/7 bg-blue-500 h-full rounded-t shadow-lg shadow-blue-500/50"></div>
+                    </div>
+                    <div class="flex justify-between text-[11px] text-gray-500 pt-3 px-2">
+                        <span>Sep 5</span><span>Sep 6</span><span>Sep 7</span><span>Sep 8</span><span>Sep 9</span><span>Sep 10</span><span>Sep 11</span>
+                    </div>
+                </div>
+
+                <!-- Dual Split Section: Recent Projects & Recent Messages -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    <!-- Recent Projects -->
+                    <div class="bg-cardBg border border-gray-800 rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-sm">Recent Projects</h3>
+                            <a href="#" class="text-xs text-blue-400 hover:underline">View All →</a>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-gray-900/60 border border-gray-800/80 rounded-xl">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-code"></i></div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-white">Kewa AI</h4>
+                                        <p class="text-[10px] text-gray-400">AI Chat & Assistant Platform</p>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] px-2 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full font-medium">🟢 Live</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-900/60 border border-gray-800/80 rounded-xl">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400"><i class="fa-solid fa-wallet"></i></div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-white">Expense Tracker</h4>
+                                        <p class="text-[10px] text-gray-400">Finance Management App</p>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] px-2 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full font-medium">🟢 Live</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Messages -->
+                    <div class="bg-cardBg border border-gray-800 rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-sm">Recent Messages</h3>
+                            <a href="#" class="text-xs text-blue-400 hover:underline">View All →</a>
+                        </div>
+                        <div id="messages-list" class="space-y-3">
+                            <!-- Dynamic messages loaded via script.js -->
+                            <div class="p-3 bg-gray-900/60 border border-gray-800/80 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-xs font-bold">R</div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-white">Rahul Sharma</h4>
+                                        <p class="text-[10px] text-gray-400">Hi, I'm interested in your services...</p>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] text-gray-500">2h ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Quick Actions & Quick Stats Bottom Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Quick Actions -->
+                    <div class="lg:col-span-2 bg-cardBg border border-gray-800 rounded-2xl p-6">
+                        <h3 class="font-bold text-sm mb-4">Quick Actions</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <button class="p-4 bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl text-center transition group">
+                                <div class="w-8 h-8 mx-auto mb-2 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition"><i class="fa-solid fa-plus text-xs"></i></div>
+                                <span class="text-xs font-semibold text-gray-300 block">Add Project</span>
+                            </button>
+                            <button class="p-4 bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl text-center transition group">
+                                <div class="w-8 h-8 mx-auto mb-2 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center group-hover:scale-110 transition"><i class="fa-solid fa-pen text-xs"></i></div>
+                                <span class="text-xs font-semibold text-gray-300 block">Write Blog</span>
+                            </button>
+                            <button class="p-4 bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl text-center transition group">
+                                <div class="w-8 h-8 mx-auto mb-2 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center group-hover:scale-110 transition"><i class="fa-solid fa-envelope text-xs"></i></div>
+                                <span class="text-xs font-semibold text-gray-300 block">Messages</span>
+                            </button>
+                            <button class="p-4 bg-gray-900 hover:bg-gray-800 border border-gray-800 rounded-xl text-center transition group">
+                                <div class="w-8 h-8 mx-auto mb-2 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition"><i class="fa-solid fa-gear text-xs"></i></div>
+                                <span class="text-xs font-semibold text-gray-300 block">Settings</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats (Profile Completion) -->
+                    <div class="bg-cardBg border border-gray-800 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-sm mb-1">Quick Stats</h3>
+                            <p class="text-[11px] text-gray-400 mb-4">Profile Completion</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="relative w-16 h-16 flex items-center justify-center">
+                                <svg class="w-full h-full transform -rotate-90">
+                                    <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="5" class="text-gray-800 fill-none"></circle>
+                                    <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="5" class="text-blue-500 fill-none" stroke-dasharray="163" stroke-dashoffset="40"></circle>
+                                </svg>
+                                <span class="absolute text-xs font-bold text-white">75%</span>
+                            </div>
+                            <div class="text-xs text-gray-400 space-y-1">
+                                <p><span class="text-white font-semibold">Projects:</span> 5/5</p>
+                                <p><span class="text-white font-semibold">Skills:</span> 8/8</p>
+                                <p><span class="text-white font-semibold">Blog:</span> 3/5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
