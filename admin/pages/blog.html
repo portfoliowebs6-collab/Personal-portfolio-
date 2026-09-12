@@ -1,0 +1,592 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta
+name="description"
+content="Portfolio Admin - Blog Management"
+
+«»
+
+  <title>Blog | Portfolio Admin</title>  <link rel="stylesheet" href="../style.css">  <script>
+    window.API_BASE_URL = "";
+  </script></head><body>  <!-- =========================
+       SIDEBAR
+  ========================== -->  <aside class="sidebar" id="sidebar"><div class="sidebar-logo">
+
+  <span class="logo-mark">K</span>
+
+  <div>
+    <strong>KewaDev</strong>
+    <small>ADMIN PANEL</small>
+  </div>
+
+</div>
+
+
+<nav class="sidebar-nav">
+
+  <a href="../dashboard.html" class="sidebar-link">
+    <span>▦</span>
+    Dashboard
+  </a>
+
+  <a href="projects.html" class="sidebar-link">
+    <span>◈</span>
+    Projects
+  </a>
+
+  <a href="messages.html" class="sidebar-link">
+    <span>✉</span>
+    Messages
+    <span
+      class="sidebar-badge"
+      id="messageBadge"
+    >0</span>
+  </a>
+
+  <a
+    href="blog.html"
+    class="sidebar-link active"
+  >
+    <span>✎</span>
+    Blog
+  </a>
+
+  <a href="analytics.html" class="sidebar-link">
+    <span>◌</span>
+    Analytics
+  </a>
+
+  <a href="users.html" class="sidebar-link">
+    <span>♙</span>
+    Users
+  </a>
+
+  <a href="settings.html" class="sidebar-link">
+    <span>⚙</span>
+    Settings
+  </a>
+
+</nav>
+
+
+<div class="sidebar-bottom">
+
+  <button
+    type="button"
+    class="logout-btn"
+    id="logoutBtn"
+  >
+    <span>↪</span>
+    Logout
+  </button>
+
+</div>
+
+  </aside>  <!-- =========================
+       MAIN CONTENT
+  ========================== -->  <main class="admin-main"><header class="admin-header">
+
+  <div class="header-left">
+
+    <button
+      type="button"
+      class="mobile-menu-btn"
+      id="mobileMenuBtn"
+    >
+      ☰
+    </button>
+
+    <div>
+      <p class="header-label">PORTFOLIO</p>
+      <h1>Blog</h1>
+    </div>
+
+  </div>
+
+
+  <div class="header-right">
+
+    <span class="admin-status">
+      <span></span>
+      Admin
+    </span>
+
+  </div>
+
+</header>
+
+
+<!-- =========================
+     PAGE CONTENT
+========================== -->
+
+<section class="page-content">
+
+  <div class="page-title-row">
+
+    <div>
+
+      <h2>Blog Management</h2>
+
+      <p>
+        Create, edit and publish articles
+        on your portfolio.
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="primary-btn"
+      id="addBlogBtn"
+    >
+      + New Article
+    </button>
+
+  </div>
+
+
+  <!-- =========================
+       BLOG STATS
+  ========================== -->
+
+  <div class="blog-stats">
+
+    <div class="blog-stat-card">
+
+      <span class="stat-icon">✎</span>
+
+      <div>
+        <small>Total Articles</small>
+        <strong id="totalBlogs">0</strong>
+      </div>
+
+    </div>
+
+
+    <div class="blog-stat-card">
+
+      <span class="stat-icon">●</span>
+
+      <div>
+        <small>Published</small>
+        <strong id="publishedBlogs">0</strong>
+      </div>
+
+    </div>
+
+
+    <div class="blog-stat-card">
+
+      <span class="stat-icon">◷</span>
+
+      <div>
+        <small>Drafts</small>
+        <strong id="draftBlogs">0</strong>
+      </div>
+
+    </div>
+
+
+    <div class="blog-stat-card">
+
+      <span class="stat-icon">◉</span>
+
+      <div>
+        <small>Total Views</small>
+        <strong id="totalBlogViews">0</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       TOOLBAR
+  ========================== -->
+
+  <div class="blog-toolbar">
+
+    <div class="search-box">
+
+      <span>⌕</span>
+
+      <input
+        type="search"
+        id="blogSearch"
+        placeholder="Search articles..."
+      >
+
+    </div>
+
+
+    <select id="blogStatusFilter">
+
+      <option value="all">
+        All Status
+      </option>
+
+      <option value="published">
+        Published
+      </option>
+
+      <option value="draft">
+        Draft
+      </option>
+
+    </select>
+
+
+    <select id="blogCategoryFilter">
+
+      <option value="all">
+        All Categories
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <!-- =========================
+       BLOG LIST
+  ========================== -->
+
+  <div
+    class="blog-grid"
+    id="blogContainer"
+  >
+
+    <div class="loading-card">
+
+      <div class="loading-spinner"></div>
+
+      <p>
+        Loading articles...
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+  </main>  <!-- =========================
+       BLOG EDITOR MODAL
+  ========================== -->  <div
+    class="modal-overlay"
+    id="blogModal"
+    hidden
+  ><div class="modal blog-modal">
+
+  <div class="modal-header">
+
+    <div>
+
+      <p class="modal-label">
+        BLOG EDITOR
+      </p>
+
+      <h2 id="blogModalTitle">
+        New Article
+      </h2>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="modal-close"
+      id="closeBlogModalBtn"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <form id="blogForm">
+
+    <input
+      type="hidden"
+      id="blogId"
+    >
+
+
+    <!-- TITLE -->
+
+    <div class="form-group">
+
+      <label for="blogTitle">
+        Article Title
+      </label>
+
+      <input
+        type="text"
+        id="blogTitle"
+        placeholder="Enter article title..."
+        required
+        maxlength="200"
+      >
+
+    </div>
+
+
+    <!-- SLUG -->
+
+    <div class="form-group">
+
+      <label for="blogSlug">
+        Slug
+      </label>
+
+      <input
+        type="text"
+        id="blogSlug"
+        placeholder="article-url-slug"
+        maxlength="220"
+      >
+
+      <small>
+        Leave empty to generate automatically from the title.
+      </small>
+
+    </div>
+
+
+    <!-- EXCERPT -->
+
+    <div class="form-group">
+
+      <label for="blogExcerpt">
+        Excerpt
+      </label>
+
+      <textarea
+        id="blogExcerpt"
+        rows="3"
+        placeholder="Short description of the article..."
+        maxlength="500"
+      ></textarea>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div class="form-group">
+
+      <label for="blogContent">
+        Article Content
+      </label>
+
+      <textarea
+        id="blogContent"
+        rows="12"
+        placeholder="Write your article here..."
+        required
+      ></textarea>
+
+      <small>
+        Write the complete article content.
+      </small>
+
+    </div>
+
+
+    <!-- COVER + CATEGORY -->
+
+    <div class="form-row">
+
+      <div class="form-group">
+
+        <label for="blogCoverImage">
+          Cover Image URL
+        </label>
+
+        <input
+          type="url"
+          id="blogCoverImage"
+          placeholder="https://..."
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="blogCategory">
+          Category
+        </label>
+
+        <input
+          type="text"
+          id="blogCategory"
+          placeholder="Web Development"
+          maxlength="100"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- TAGS -->
+
+    <div class="form-group">
+
+      <label for="blogTags">
+        Tags
+      </label>
+
+      <input
+        type="text"
+        id="blogTags"
+        placeholder="JavaScript, AI, Web Development"
+      >
+
+      <small>
+        Separate tags with commas.
+      </small>
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div class="form-row">
+
+      <div class="form-group">
+
+        <label for="blogStatus">
+          Status
+        </label>
+
+        <select id="blogStatus">
+
+          <option value="draft">
+            Draft
+          </option>
+
+          <option value="published">
+            Published
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Visibility
+        </label>
+
+        <label class="checkbox-field">
+
+          <input
+            type="checkbox"
+            id="blogFeatured"
+          >
+
+          <span>
+            Featured Article
+          </span>
+
+        </label>
+
+      </div>
+
+    </div>
+
+
+    <!-- FORM MESSAGE -->
+
+    <div
+      class="form-message"
+      id="blogFormMessage"
+    ></div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="modal-actions">
+
+      <button
+        type="button"
+        class="secondary-btn"
+        id="cancelBlogBtn"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="primary-btn"
+        id="saveBlogBtn"
+      >
+        Save Article
+      </button>
+
+    </div>
+
+  </form>
+
+</div>
+
+  </div>  <!-- =========================
+       DELETE MODAL
+  ========================== -->  <div
+    class="modal-overlay"
+    id="deleteBlogModal"
+    hidden
+  ><div class="modal small-modal">
+
+  <div class="delete-icon">
+    !
+  </div>
+
+  <h2>
+    Delete Article?
+  </h2>
+
+  <p>
+    This article will be permanently deleted.
+    This action cannot be undone.
+  </p>
+
+
+  <div class="modal-actions">
+
+    <button
+      type="button"
+      class="secondary-btn"
+      id="cancelBlogDeleteBtn"
+    >
+      Cancel
+    </button>
+
+    <button
+      type="button"
+      class="danger-btn"
+      id="confirmBlogDeleteBtn"
+    >
+      Delete
+    </button>
+
+  </div>
+
+</div>
+
+  </div>  <!-- =========================
+       TOAST
+  ========================== -->  <div
+    class="admin-toast"
+    id="blogToast"
+    aria-live="polite"
+  ></div>  <script src="../script.js"></script></body>
+</html>
