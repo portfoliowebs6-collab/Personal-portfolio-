@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://localhost:5000/api';
+const BACKEND_URL = 'https://personal-portfolio-8tbs.onrender.com/api';
 
 // 1. Contact Form Submission
 const contactForm = document.getElementById('contact-form');
